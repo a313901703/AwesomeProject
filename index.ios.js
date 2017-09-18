@@ -1,0 +1,27 @@
+/**
+ * Sample React Native App
+ * https://github.com/facebook/react-native
+ * @flow
+ */
+
+import React, { Component } from 'react';
+import {
+  AppRegistry,
+} from 'react-native';
+
+import {Provider} from 'react-redux';
+import {createStore} from 'redux';
+import AppWithNavigationState from './shopApp/AppNavigator';
+import AppReducer from './shopApp/reducers/index';
+
+export default class AwesomeProject extends Component {
+    store = createStore(AppReducer);
+    render() {
+        return (
+            <Provider store={this.store}>
+                <AppWithNavigationState />
+            </Provider>
+        );
+  }
+}
+AppRegistry.registerComponent('AwesomeProject', () => AwesomeProject);
