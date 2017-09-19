@@ -5,8 +5,10 @@ import {
   Text,
   TouchableWithoutFeedback,
   ScrollView,
-  Modal,
+  Modal
 } from 'react-native';
+import { connect } from 'react-redux';
+
 //组件
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Ionicon from 'react-native-vector-icons/Ionicons';
@@ -16,14 +18,22 @@ import ProductInfo from '../components/ProductDetail/ProductInfo'
 import Formats from '../components/ProductDetail/Formats'
 import Comment from '../components/ProductDetail/Comment'
 import ProductDesc from '../components/ProductDetail/ProductDesc'
-
-import {modal} from '../actions/index'
+import Modals from '../components/Modal'
+import {modal,joinCart} from '../actions/index'
 //css
 import {Commstyles,themeColor,windowWidth,windowHeight} from '../styles/comm';
 
 class BottomMenu extends Component{
     _goPayCart(){
-        //console.log()
+        let {dispatch,isFetching} = this.props;
+        //dispatch(modal(true))
+        dispatch(joinCart())
+        // this.timer = setTimeout(
+        //    () => {dispatch(modal(false))},2000
+        // );
+    }
+    componentWillUnMount() {
+        this.timer && clearTimeout(this.timer);
     }
     render(){
         return(
@@ -36,7 +46,6 @@ class BottomMenu extends Component{
                 </View>
                 <TouchableWithoutFeedback onPress={()=>this._goPayCart()}>
                 <View style={[styles.bottomMenuItem,Commstyles.absoluteCenter,styles.goPayCart]}>
-
                     <Text style={styles.bottomMenuText}>加入购物车</Text>
                 </View>
                 </TouchableWithoutFeedback>
@@ -47,8 +56,8 @@ class BottomMenu extends Component{
 
 class GoBack extends Component{
     _goBack(){
-        let navigation = this.props.navigation;
-        navigation.dispatch({type:'goBack',_router:'what'})
+        let dispatch = this.props.dispatch;
+        dispatch({type:'goBack',_router:'what'})
     }
     render(){
         return(
@@ -66,27 +75,35 @@ class ProductDetail extends Component{
         header: null,
     };
     render(){
-        let navigation = this.props.navigation;
-        console.log(this.pops)
+        let {dispatch,isFetching} = this.props;
+        console.log(this.props)
         return(
             <View style={[Commstyles.container,{paddingBottom:40}]}>
                 <ScrollView style={{flex:1}}>
-                    <GoBack navigation={navigation}/>
+                    <GoBack dispatch={dispatch}/>
                     <SliderModule section='轮播' height={300}/> 
                     <ProductInfo /> 
                     <Formats />
                     <Comment />
                     <ProductDesc />
                 </ScrollView>
-                <BottomMenu />
-                <Modal 
-                    animationType={"fade"}
-                    transparent={true}
-                />
+                <Modals text='加入成功' visible={isFetching} transparent={true}/>
+                <BottomMenu dispatch={dispatch} isFetching={isFetching}/>
             </View>
         );
     }
 } 
+
+// function mapStateToProps(state){
+//     const {shoppingCart} = state
+//     const {isFetching,items} = shoppingCart
+//     return {shoppingCart,isFetching,items}
+// }
+const mapStateToProps = state => ({
+    //shoppingCart: state.shoppingCart,
+    isFetching:state.shoppingCart.isFetching,
+    items:state.shoppingCart.items,
+});
 
 const styles = StyleSheet.create({
     goBack:{
@@ -127,5 +144,4 @@ const styles = StyleSheet.create({
         color:'#fff',
     },
 })
-
-export default ProductDetail;
+export default connect(mapStateToProps)(ProductDetail);

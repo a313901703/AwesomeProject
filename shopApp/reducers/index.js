@@ -27,7 +27,6 @@ function nav(state, action) {
     case 'routers':
         let routeName = action.routeName
         let params    = action.params
-        console.log(params)
         nextState = AppNavigator.router.getStateForAction(
             NavigationActions.navigate({ routeName: routeName,params:params}),
             state
@@ -54,15 +53,30 @@ function auth(state = initialAuthState, action) {
   }
 }
 
-const modalVisible = false;
-function modal(state = modalVisible, action) {
-    return state = action.type == 'show' ? true : false;
+function modal(state = false, action) {
+    return action.type == 'modal' ? action.visible : state;
+}
+
+function shoppingCart(state = {
+    isFetching:false,
+    items:[],
+},action){
+    switch(action.type){
+        case 'joining':
+            return Object.assign({},state,{
+                isFetching:true,
+            })
+        default:
+            return state;
+    }
+    //return action.type == 'joinCart' ? action.isFetch : state;
 }
 
 const AppReducer = combineReducers({
   nav,
   auth,
-  countDown,
+  modal,
+  shoppingCart
 });
 
 export default AppReducer;

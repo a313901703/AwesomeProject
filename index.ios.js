@@ -13,12 +13,15 @@ import {Provider} from 'react-redux';
 import {createStore} from 'redux';
 import AppWithNavigationState from './shopApp/AppNavigator';
 import AppReducer from './shopApp/reducers/index';
+import configureStore from './shopApp/configureStore' 
+
+const store = configureStore()
 
 export default class AwesomeProject extends Component {
-    store = createStore(AppReducer);
+    //store = createStore(AppReducer);
     render() {
         return (
-            <Provider store={this.store}>
+            <Provider store={store}>
                 <AppWithNavigationState />
             </Provider>
         );
