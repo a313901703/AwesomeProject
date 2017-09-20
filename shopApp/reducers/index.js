@@ -57,8 +57,22 @@ function modal(state = false, action) {
     return action.type == 'modal' ? action.visible : state;
 }
 
+function sweetAlert(state = {
+    visible:false,
+    text:'',
+    status:true
+},action){
+    switch(action.type){
+        case 'sweetAlert':
+            return Object.assign({},state,action)
+        default:
+            return state;
+    }
+}
+
 function shoppingCart(state = {
     isFetching:false,
+    fetchStatus:true,
     items:[],
 },action){
     switch(action.type){
@@ -66,6 +80,13 @@ function shoppingCart(state = {
             return Object.assign({},state,{
                 isFetching:true,
             })
+        case 'joinSuccess':
+            let items = [...state.items,action.items]
+            return Object.assign({},state,{
+                isFetching:false,
+                items:items
+            })
+            //return [...state.items,action.data]
         default:
             return state;
     }
@@ -76,7 +97,8 @@ const AppReducer = combineReducers({
   nav,
   auth,
   modal,
-  shoppingCart
+  shoppingCart,
+  sweetAlert
 });
 
 export default AppReducer;

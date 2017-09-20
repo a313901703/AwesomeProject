@@ -1,6 +1,19 @@
+import axios from 'axios'
+import {config,baseUrl} from '../common/config'
 export const ROUTERS = 'routers';
 export const MODAL   = 'modal';
 
+var instance = axios.create({
+    baseURL: 'http://www.dev.com/api/v1/goods/',
+    headers: config.headers,
+});
+
+function requestGet(params = {}){
+}
+
+function requestPost(){
+
+}
 export function routers(routeName,params = {}){
     return { type:ROUTERS,routeName:routeName,params:params}
 }
@@ -9,13 +22,32 @@ export function modal(visible = true){
     return { type : MODAL,visible }
 }
 
+export function sweetAlert(visible,text = '' , status = true){
+    return { type : 'sweetAlert',visible,text,status } 
+}
+
 export function joinCart(productid){
     return (dispatch,getState) => {
         if (shouldFetch(getState())) {
-            return dispatch(joining(productid));
+            dispatch(joining())
+            return instance.get('/joinpaycart.html?productid=1')
+            .then(json=>dispatch(joinCartSuccess(json)))
+            .catch(error => dispatch(requestFail(error,'joinFail')))
         }
-        console.log('false')
     }
+}
+
+function requestFail(error,typeName){
+    let message = ''
+    if (error.response && error.response.data.message) {
+        // 请求已发出，但服务器响应的状态码不在 2xx 范围内
+        message = error.response.data.message;
+        //console.log(error.response.data);
+    } else {
+        message = 'request false: '.error.message;
+        //console.log('Error', error.message);
+    }
+    return {type:'sweetAlert',visible:true,text:message,status:false}
 }
 
 function shouldFetch(state){
@@ -26,22 +58,14 @@ function shouldFetch(state){
     return true
 }
 
-export function requestPosts() {
-    return {
-        type: 'joining',
-    };
+function joining(){
+    return {type:'joining'}
 }
 
-function receivePosts(data={}){
-    data = [{'id':1,'name':'test'}]
-    return {
-        type : 'recive',
-        data: data,
-    }
-}
-function joining(productid){
+function joinCartSuccess(data){
+    let items = data.data
     return dispatch => {
-        dispatch(requestPosts())
-        return dispatch({type:'join',productid})
+        dispatch(sweetAlert(true,'加入成功'))
+        return dispatch({type: 'joinSuccess',items})
     }
 }

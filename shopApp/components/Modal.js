@@ -4,21 +4,30 @@ import { StyleSheet, Text, View,Modal } from 'react-native';
 import { connect } from 'react-redux';
 import {Commstyles,themeColor,windowWidth,windowHeight} from '../styles/comm';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {sweetAlert} from '../actions/index'
 
-export default class Modals extends Component{
-    static defaultProps = {
-        visible: true,
-        transparent:false,
-        text:'success',
-    };
+class Modals extends Component{
+    _onShow(){
+        dispatch = this.props.dispatch
+        this.timer = setTimeout(
+          () => dispatch(sweetAlert(false)),
+          2000
+        );
+    }
+
+    componentWillUnmount(){
+        this.timer && clearTimeout(this.timer);
+        this.props.dispatch(sweetAlert(false))
+    }
     render(){
+        let sweetAlert = this.props.sweetAlert
         return(
             <Modal 
                 animationType={'fade'} 
                 transparent={this.props.transparent} 
-                onShow={()=>{console.log('on show')}}
-                visible={this.props.visible} 
-                onRequestClose={() => {console.log('modal close')}}
+                onShow={()=>this._onShow()}
+                visible={sweetAlert.visible} 
+                //onRequestClose={() => {console.log('modal close')}}
             >
                 <View style={[styles.flex1,Commstyles.absoluteCenter]}>
                     <View style={styles.innerContainer}> 
@@ -26,7 +35,7 @@ export default class Modals extends Component{
                             <Icon name="ios-checkmark-circle-outline" size={25} color={themeColor} />
                         </View>
                         <View style={[styles.absoluteCenter]}>
-                            <Text style={{color:'#fff'}}>{this.props.text}</Text>
+                            <Text style={{color:'#fff'}}>{sweetAlert.text}</Text>
                         </View>
                     </View>
                 </View>   
@@ -35,6 +44,9 @@ export default class Modals extends Component{
     }
 }
 
+const mapStateToProps = state => ({
+    sweetAlert:state.sweetAlert
+});
 const styles = StyleSheet.create({
     flex1:{
         flex:1,
@@ -43,8 +55,8 @@ const styles = StyleSheet.create({
         borderRadius:10,
         paddingHorizontal:40,
         paddingVertical:15,
-        opacity:0.6,
-        backgroundColor:'#b0b0b0',
+        opacity:0.7,
+        backgroundColor:'#666',
     },
     modalItem:{
         marginBottom:10,
@@ -56,3 +68,5 @@ const styles = StyleSheet.create({
         height:200,
     },
 })
+
+export default connect(mapStateToProps)(Modals);

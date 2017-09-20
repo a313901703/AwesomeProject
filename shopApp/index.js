@@ -105,6 +105,17 @@ class MyList extends Component{
                 <SliderModule section='轮播' />
                 <Categories section='分类图标' />
                 <Advertiserments section='广告'/>
+                <View style={styles.sections}>
+                <View style={styles.rows}>
+                    <View >
+                        <Image style={styles.advLeftImg} source={{uri:'http://ooafrn5be.bkt.clouddn.com/adv1.jpg'}}/>
+                    </View>
+                    <View >
+                        <Image style={styles.advRightImg} source={{uri:'http://ooafrn5be.bkt.clouddn.com/adv2.jpg'}}/>
+                        <Image style={styles.advRightImg} source={{uri:'http://ooafrn5be.bkt.clouddn.com/adv3.jpg'}}/>
+                    </View>
+                </View>
+            </View>
                 <Goods section='各种商品' navigation={navigation}/>
                 <View style={[styles.sectionHeader,{marginTop:10}]}>
                     <Text style={styles.sectionHeaderText}>title3</Text>

@@ -5,7 +5,6 @@ import {
   Text,
   TouchableWithoutFeedback,
   ScrollView,
-  Modal
 } from 'react-native';
 import { connect } from 'react-redux';
 
@@ -19,22 +18,17 @@ import Formats from '../components/ProductDetail/Formats'
 import Comment from '../components/ProductDetail/Comment'
 import ProductDesc from '../components/ProductDetail/ProductDesc'
 import Modals from '../components/Modal'
-import {modal,joinCart} from '../actions/index'
+import {joinCart} from '../actions/index'
+
 //css
 import {Commstyles,themeColor,windowWidth,windowHeight} from '../styles/comm';
 
 class BottomMenu extends Component{
     _goPayCart(){
         let {dispatch,isFetching} = this.props;
-        //dispatch(modal(true))
         dispatch(joinCart())
-        // this.timer = setTimeout(
-        //    () => {dispatch(modal(false))},2000
-        // );
     }
-    componentWillUnMount() {
-        this.timer && clearTimeout(this.timer);
-    }
+    
     render(){
         return(
             <View style={styles.bottomMenu}>
@@ -76,7 +70,6 @@ class ProductDetail extends Component{
     };
     render(){
         let {dispatch,isFetching} = this.props;
-        console.log(this.props)
         return(
             <View style={[Commstyles.container,{paddingBottom:40}]}>
                 <ScrollView style={{flex:1}}>
@@ -87,22 +80,18 @@ class ProductDetail extends Component{
                     <Comment />
                     <ProductDesc />
                 </ScrollView>
-                <Modals text='加入成功' visible={isFetching} transparent={true}/>
+                <Modals transparent={true}/>
                 <BottomMenu dispatch={dispatch} isFetching={isFetching}/>
             </View>
         );
     }
 } 
 
-// function mapStateToProps(state){
-//     const {shoppingCart} = state
-//     const {isFetching,items} = shoppingCart
-//     return {shoppingCart,isFetching,items}
-// }
 const mapStateToProps = state => ({
     //shoppingCart: state.shoppingCart,
     isFetching:state.shoppingCart.isFetching,
     items:state.shoppingCart.items,
+    payCartProducts:state.shoppingCart.items
 });
 
 const styles = StyleSheet.create({
