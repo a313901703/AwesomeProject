@@ -1,147 +1,75 @@
 import React,{Component} from 'react';
 import {
-  StyleSheet,
   View,
   Text,
   Image,
-  FlatList,
-  ImageBackground,
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import CommStyle from '../../styles/comm';
-import {routers} from '../../actions/index'
-import Dimensions from 'Dimensions';
-const windowWidth = Dimensions.get('window').width;     //屏幕宽度
+import {routers} from '../common/actions.js'
+import { connect } from 'react-redux';
+import { requestProductsNew } from './actions.js'
 
 
-var goods = [
-    ['recommend1','recommend2','recommend3','recommend4'],
-    ['new1', 'new2', 'new 3'],
-    ['more1','more2','more3','more4',]
-];
-
-
-//更多商品
-class GoodsMore extends Component{
-     _renderRow(data){
-        return (
-            <View style={CommStyle.goodsItem}>
-                <Thumbnail style={CommStyle.goodsImg} square  source={{uri:'http://ooafrn5be.bkt.clouddn.com/sanya1.jpg'}} />
-                <View style={CommStyle.goodsInfo}>
-                    <Text style={CommStyle.goodsName} numberOfLines={1}>测试标题</Text>
-                    <View style={{flexDirection: 'row',alignItems:'center'}}>
-                        <Text style={CommStyle.price}>￥200  </Text>
-                        <Text style={CommStyle.marketPrice}>￥300</Text>
-                        <Text style={CommStyle.nums} >已售100</Text>
-                    </View>
-                </View>
-            </View>
-        );
-    }
-    render(){
-        return(
-            <View style={CommStyle.sections} >
-                <View style={CommStyle.sectionHeader}>
-                    <Text style={CommStyle.sectionHeaderText}>{'更多'}</Text>
-                </View>
-                <ListView
-                    contentContainerStyle={CommStyle.goodsList}
-                    dataSource={this.state.dataSource}
-                    renderRow={this._renderRow}
-                    renderFooter={this._renderFooter.bind(this)}
-                    // onEndReached={this._fetchMoreData.bind(this)}
-                    // onEndReachedThreshold={20}
-                    // automaticallyAdjustContentInsets={false}
-                />
-            </View>
-        );
-    }
-}
 
 //推荐
 class Recommend extends Component{
-    _onPress(id){
+    _onPress(item){
+        let {onClick} = this.props;
+        onClick && onClick(item.id)
+    }
+
+    //初始化
+    componentDidMount(){
         let navigation = this.props.navigation;
-        navigation.dispatch(routers('ProductDetail',{id:1}))
+        navigation.dispatch(requestProductsNew())
+    }
+   
+    _renderItem(item,i){
+        let { products } = this.props
+        item = products[item]
+        return (
+            <TouchableOpacity key={i} onPress={()=>this._onPress(item)}>
+            <View style={CommStyle.RecommendGoodsItem} >
+                {
+                    item.images && item.images.thumb ? 
+                    <Image style={CommStyle.RcommendGoodsImg} source={{uri: item.images.thumb}}/> :
+                    <Image style={CommStyle.RcommendGoodsImg} source={{uri: 'http://ooafrn5be.bkt.clouddn.com/sanya1.jpg'}}/>
+                }
+                <View style={CommStyle.goodsInfo}>
+                    <Text style={CommStyle.goodsName} numberOfLines={2}>{item.name}</Text>
+                    <View style={{flexDirection: 'row',alignItems:'center'}}>
+                        <Text style={CommStyle.price}>￥{item.price} </Text>
+                        <Text style={CommStyle.marketPrice}>￥{item.market_price}</Text>
+                    </View>
+                </View>
+            </View>
+            </TouchableOpacity>
+        )
     }
     render(){
+        let { recommends } = this.props
         return(
             <View style={CommStyle.sections} >
-                <View style={CommStyle.sectionHeader}>
-                    <Text style={CommStyle.sectionHeaderText}>title1</Text>
+                <View style={[CommStyle.sectionHeader]}>
+                    <Image style={{width:'100%',height:'100%'}} source={require('../../imgs/title2.png')}/>
                 </View>
                 <ScrollView style={{padding:8}} horizontal={true} showsHorizontalScrollIndicator={false}>
                 {
-                    this.props.goods.map((item,i)=>{
-                        return (
-                            <TouchableOpacity key={i} onPress={()=>this._onPress(1)}>
-                            <View style={CommStyle.RecommendGoodsItem} >
-                                <Image style={CommStyle.RcommendGoodsImg} square source={{uri: 'http://ooafrn5be.bkt.clouddn.com/sanya1.jpg'}} />
-                                <View style={CommStyle.goodsInfo}>
-                                    <Text style={CommStyle.goodsName} numberOfLines={1}>productName</Text>
-                                    <View style={{flexDirection: 'row',alignItems:'center'}}>
-                                        <Text style={CommStyle.price}>￥300  </Text>
-                                        <Text style={CommStyle.marketPrice}>￥99</Text>
-                                    </View>
-                                </View>
-                            </View>
-                            </TouchableOpacity>
-                        )
-                    })
+                    recommends.map((item,i)=>this._renderItem(item,i))
                 }
                 </ScrollView>
-            </View>
-        );
-    }
-}
-//新品
-class News extends Component{
-    render(){
-        return(
-            <View style={CommStyle.sections} >
-                <View style={CommStyle.sectionHeader}>
-                    <Text style={CommStyle.sectionHeaderText}>title2</Text>
-                </View>
-                <ScrollView style={{padding:8}} horizontal={true} showsHorizontalScrollIndicator={false}>
-                {
-                    this.props.goods.map((item,i)=>{
-                        return (
-                            <View style={[CommStyle.newsGoodsItem]} key={i}>
-                                <ImageBackground style={CommStyle.newsGoodsImage}  source={{uri: 'http://ooafrn5be.bkt.clouddn.com/sanya1.jpg'}}>
-                                    <Text style={CommStyle.newsInfo}>
-                                        <Text style={CommStyle.newsInfoItem}>测试新品广告</Text>{'\n'}
-                                        <Text style={CommStyle.newsInfoItem}>测试新品广告描述</Text>
-                                    </Text>
-                                </ImageBackground>
-                            </View>
-                        )
-                    })
-                }
-                </ScrollView>
-            </View>
-        );
-    }
-}
-//商品列表
-export default class Goods extends Component{
-    render(){
-        let navigation = this.props.navigation;
-        return(
-            <View >
-                <Recommend goods={goods[0]} 
-                    navigation={navigation}
-                    />
-                <View style={CommStyle.sections} >
-                    <Image style={CommStyle.advRow} source={{uri: 'http://ooafrn5be.bkt.clouddn.com/slider1.jpg'}} />
-                </View>
-                <News goods={goods[1]}/>
             </View>
         );
     }
 }
 
-const styles = StyleSheet.create({
-    
+const mapStateToProps = state => ({
+    recommends:state.products.recommends,
+    products:state.products.products,
 });
+export default connect(mapStateToProps)(Recommend);
+
+

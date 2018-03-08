@@ -5,7 +5,7 @@ import Dimensions from 'Dimensions';
 export const windowWidth = Dimensions.get('window').width;     //屏幕宽度
 export const windowHeight = Dimensions.get('window').height;   //屏幕高度
 
-export const themeColor = '#ff0033';
+export const themeColor = global.themeColor;
 
 export const Commstyles = {
     bgThemeColor:{
@@ -150,6 +150,24 @@ export const Commstyles = {
         color:'#777',
         fontSize:12,
         textAlign:"center",
+    },
+    positionBottom:{
+        position:'absolute',
+        bottom:0,
+        left:0,
+    },
+    cutoffLine:{
+        width:'100%',
+        height:0.7,
+        backgroundColor:"#fbfbfb",
+    },
+    space:{
+        width:windowWidth,
+        height:10,
+    },
+    headerRightFont:{
+        fontSize:14,
+        color:'#fff'
     },
 }
 

@@ -4,15 +4,23 @@ import { connect } from 'react-redux';
 import { addNavigationHelpers, StackNavigator,TabNavigator } from 'react-navigation';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import My from './routers/My';
-import Home from './index';
-import Category from './routers/Category';
-import PayCart from './routers/Paycart';
-import ProductDetail from './routers/ProductDetail';
+import My from './components/UserCenter/index';
+import UserInfo from './components/UserCenter/UserInfo.js'
+import Home from './components/Home/index';
+import ProductDetail from './components/ProductDetail/ProductDetail.js';
+import Category from './components/Category/index.js';
+import PayCart from './components/PayCart/index'
+import SignIn from './components/Loign/signIn.js'
+import Orders from './components/Orders/Orders.js'
+import ConfirmOrder from './components/ConfirmOrder/index.js'
+import Address from './components/Address/index.js'
+import AddAddress from './components/Address/AddAddress.js'
+import Pay from './components/Pay.js'
+import Products from './components/Products/index.js'
 
-const themeColor = '#ff0033';
-// import MainScreen from '../components/MainScreen';
-// import ProfileScreen from '../components/ProfileScreen';
+
+const themeColor = global.themeColor
+
 const Tab = TabNavigator({
     Home: {
         screen: Home,
@@ -69,7 +77,6 @@ const Tab = TabNavigator({
           }, 
           style: {
               backgroundColor: '#fff', // TabBar 背景色
-              // height: 44
           },
           labelStyle: {
               fontSize: 10, // 文字大小
@@ -80,8 +87,16 @@ const Tab = TabNavigator({
 export const AppNavigator = StackNavigator({
     Tab:{screen:Tab},  
     ProductDetail:{screen:ProductDetail},
-    //WaitPrepare:{screen:WaitPrepare}
-  }, { 
+    SignIn:{screen:SignIn},
+    PayCart:{screen:PayCart},
+    Orders:{screen:Orders},
+    ConfirmOrder:{screen:ConfirmOrder},
+    Address:{screen:Address},
+    AddAddress:{screen:AddAddress},
+    Pay:{screen:Pay},
+    Products:{screen:Products},
+    UserInfo:{screen:UserInfo},
+    }, { 
     navigationOptions:{  
         headerBackTitle:null,  
         headerTintColor:'#fff',  
@@ -92,6 +107,7 @@ export const AppNavigator = StackNavigator({
             backgroundColor: themeColor,
             height:50,
             paddingHorizontal:15,
+            borderBottomColor:themeColor
         },
     },  
     mode:'card',

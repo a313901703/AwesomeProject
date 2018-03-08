@@ -8,11 +8,10 @@ import React, { Component } from 'react';
 import {
   AppRegistry,
 } from 'react-native';
-
+import './shopApp/global.js'
 import {Provider} from 'react-redux';
 import {createStore} from 'redux';
 import AppWithNavigationState from './shopApp/AppNavigator';
-import AppReducer from './shopApp/reducers/index';
 import configureStore from './shopApp/configureStore' 
 
 const store = configureStore()

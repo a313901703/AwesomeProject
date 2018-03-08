@@ -27,12 +27,12 @@ export function sweetAlert(visible,text = '' , status = true){
 }
 
 export function joinCart(productid){
-    return (dispatch,getState) => {
-        if (shouldFetch(getState())) {
-            dispatch(joining())
-            return instance.get('/joinpaycart.html?productid=1')
-            .then(json=>dispatch(joinCartSuccess(json)))
-            .catch(error => dispatch(requestFail(error,'joinFail')))
+    return {
+        types:['joining','joinSuccess','sweetAlert'],
+        payload: {
+            request:{
+                url:'/joinpaycart.html?productid=1',
+            }
         }
     }
 }

@@ -13,7 +13,7 @@ const Comment = () => (
         <View style={styles.commentHeader}>
             <View><Text style={styles.headerText}>评论(200)</Text></View>
             <View>
-                <Text style={styles.headerText}>好评率 <Text style={Commstyles.fontThemeColor}>96%</Text></Text>
+                <Text style={styles.headerText}>好评率 <Text style={styles.goCommentText}>96%</Text></Text>
             </View>
         </View>
         <View style={styles.commentItem}>
@@ -75,12 +75,12 @@ const styles = StyleSheet.create({
         width:100,
         height:25,
         borderRadius:10,
-        borderColor:themeColor,
+        borderColor:global.redColor,
         borderWidth:1,
     },
     goCommentText:{
         fontSize:12,
-        color:themeColor,
+        color:global.redColor,
     }
 
 
