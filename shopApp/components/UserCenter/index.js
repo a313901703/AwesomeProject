@@ -50,9 +50,9 @@ class Header extends Component{
                         user.auth_key ? 
                         <TouchableWithoutFeedback onPress={()=>this._userInfo()}>
                         <View style={styles.userInfo}>
-                            <View><Text style={styles.userName}>{user.username}</Text></View>
+                            <View><Text style={styles.userName}>YIi_shop__15102939462028</Text></View>
                             <View>
-                                <Text style={styles.phone}><Icon name="mobile-phone" size={12} color='#fff' /> {user.phone}</Text>
+                                <Text style={styles.phone}><Icon name="mobile-phone" size={12} color='#fff' /> 15993777272</Text>
                             </View>
                         </View></TouchableWithoutFeedback> : 
                         <TouchableWithoutFeedback onPress={()=>this._login()}>
@@ -151,7 +151,7 @@ class My extends Component{
             ],
             [
                 {'id':2,'name':'我的收藏','icon':'heart','iconColor':themeColor,'desc':''},
-                {'id':3,'name':'优惠券','icon':'money','iconColor':'#FF9900','desc':'一些描述'},
+                {'id':3,'name':'优惠券','icon':'money','iconColor':'#FF9900','desc':''},
             ],
             [
                 {'id':4,'name':'服务中心','icon':'thumbs-up','iconColor':'#0099FF','desc':''},

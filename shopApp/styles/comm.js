@@ -81,6 +81,7 @@ export const Commstyles = {
     },
     //推荐
     RecommendGoodsItem:{
+        width:windowWidth*0.3 + 10,
         height:windowWidth*0.3+50,
         marginRight:8,
     },

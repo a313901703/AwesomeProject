@@ -21,7 +21,7 @@ export default class ProductItem extends Component{
         return(
             <View style={styles.productBox}>
                 <View style={{flex:1}}>
-                    <Image style={styles.productImg} source={{uri: 'http://ooafrn5be.bkt.clouddn.com/sanya1.jpg'}}/> 
+                    <Image style={styles.productImg} source={{uri: item.thumb}}/> 
                 </View>
                 <View style={styles.productInfo}>
                     <View>

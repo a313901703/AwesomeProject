@@ -14,7 +14,7 @@ const ProductInfo = ({data}) => (
             <Text style={Commstyles.productname}>{data.name}</Text>
         </View>
         <View style={styles.rows}>
-            <Text style={styles.minFont}>{data.name}</Text>
+            <Text style={styles.minFont}>{data.good_note}</Text>
         </View>
         <View style={styles.rows}>
             <Text style={styles.productPrice}>￥{data.price}   <Text style={styles.marketPrice}>￥{data.market_price}</Text></Text>
