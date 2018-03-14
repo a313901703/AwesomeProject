@@ -20,7 +20,7 @@ export class ProductList extends Component {
                 <View style={styles.products}>
                     {
                         items.map((el,index)=>{
-                            return <OrderProductItem key={index} item={el}/>
+                            return <OrderProductItem key={index} item={el} uri={el.thumb}/>
                         })
                     }
                 </View>

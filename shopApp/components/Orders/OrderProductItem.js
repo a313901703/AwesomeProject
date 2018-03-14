@@ -16,7 +16,6 @@ class OrderpRroductItem extends Component {
     render() {
         let uri = {uri:this.props.uri}
         let { item } = this.props
-        console.log(item)
         //return (<View></View>);
         return (
             <View style={styles.orderItem}>
@@ -44,8 +43,9 @@ const styles = StyleSheet.create({
         marginBottom:5,
     },
     productImg:{
-        width:60,
-        height:50,
+        width:80,
+        height:65,
+        resizeMode:'stretch',
     },
      productInfo:{
         paddingHorizontal:10,
